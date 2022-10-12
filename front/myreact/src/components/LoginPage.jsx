@@ -1,26 +1,36 @@
 import axios from "axios";
 import React, { useState } from "react";
-import "./LoginPage.sass";
+import { useHistory } from "react-router-dom";
+import styles from "../css/LoginPage.module.sass";
 
 function LoginPage() {
   const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
+  const [psword, setPsword] = useState("");
+  const history = useHistory();
 
   const onChangeId = (e) => {
     setId(e.target.value);
   };
   const onChangePassword = (e) => {
-    setPassword(e.target.value);
+    setPsword(e.target.value);
   };
 
   const onClickLogin = () => {
     axios
       .post("http://localhost:5000/login", {
         id: id,
-        password: password,
+        psword: psword,
       })
       .then((res) => {
-        console.log(id, password);
+        alert(res.data.msg);
+        if (res.data.msg === "로그인 성공") {
+          history.push({
+            pathname: "/main",
+            state: {
+              id: id,
+            },
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -28,40 +38,30 @@ function LoginPage() {
   };
 
   return (
-    <div className="App">
-      <div className="input-container">
-        <input type="text" placeholder="Id" value={id} onChange={onChangeId} />
-        <i className="zmdi zmdi-account zmdi-hc-lg"></i>
+    <div className={styles.loginbody}>
+      <div className={styles.App}>
+        <div className={styles.inputcontainer}>
+          <input
+            type="text"
+            placeholder="Id"
+            value={id}
+            onChange={onChangeId}
+          />
+        </div>
+        <div className={styles.inputcontainer}>
+          <input
+            type="password"
+            placeholder="Password"
+            value={psword}
+            onChange={onChangePassword}
+          />
+        </div>
+        <button type="button" onClick={onClickLogin}>
+          Log In
+        </button>
       </div>
-      <div className="input-container">
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={onChangePassword}
-        />
-        <i className="zmdi zmdi-lock zmdi-hc-lg"></i>
-      </div>
-      <button type="button" onClick={onClickLogin}>
-        Log In
-      </button>
     </div>
   );
-  // <div>
-  //   <div>
-  //     <input type="text" placeholder="id" value={id} onChange={onChangeId} />
-  //     <input
-  //       type="password"
-  //       placeholder="password"
-  //       value={password}
-  //       onChange={onChangePassword}
-  //     />
-  //     <button type="button" onClick={onClickLogin}>
-  //       login
-  //     </button>
-  //   </div>
-  // </div>
-  // );
 }
 
 export default LoginPage;

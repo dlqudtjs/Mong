@@ -1,11 +1,20 @@
-// import LandingPage from "./components/LandingPage";
-import LandingPage from "./components/LandingPage";
+import React from "react";
+import LoginPage from "./components/LoginPage";
+import RegisterPage from "./components/RegisterPage";
+import MainPage from "./components/MainPage";
+import WritePage from "./components/WritePage";
+import ListViewPage from "./components/ListViewPage";
+import { Route } from "react-router-dom";
 
 function App() {
   return (
-    <div>
-      <LandingPage />
-    </div>
+    <>
+      <Route exact path="/login" component={LoginPage} />
+      <Route exact path="/register" component={RegisterPage} />
+      <Route exact path="/main" component={MainPage} />
+      <Route exact path="/write" component={WritePage} />
+      <Route exact path="/listview" component={ListViewPage} />
+    </>
   );
 }
 

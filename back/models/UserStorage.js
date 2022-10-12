@@ -4,12 +4,21 @@ class UserStorage {
   static getUserInfo(id) {
     return new Promise((resolve, reject) => {
       const query = "SELECT * FROM users WHERE id = ?;";
-      db.query(query, id, (err, data) => {
+      db.query(query, [id], (err, data) => {
         if (err) reject(`${err}`);
-        resolve(data);
+        resolve(data[0]);
+      });
+    });
+  }
+
+  static save(userInfo) {
+    return new Promise((resolve, reject) => {
+      const query = "INSERT INTO users(id, psword, name) VALUES(?, ?, ?);";
+      db.query(query, [userInfo.id, userInfo.psword, userInfo.username], (err) => {
+        if (err) reject(`${err}`);
+        resolve({ success: true });
       });
     });
   }
 }
-
 module.exports = UserStorage;
