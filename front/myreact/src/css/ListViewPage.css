@@ -1,0 +1,10 @@
+.demoPage {
+  background-color: #f4f4f4;
+  background-image: url("../../public/11.png");
+}
+
+.div {
+  padding: 0.5rem calc((100vw - 1000px) / 2);
+  /* padding: 100px;
+  left: 50px; */
+}

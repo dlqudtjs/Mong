@@ -6,8 +6,10 @@ function MainPage() {
 
   const onclickWrite = () => {
     history.push({
-      pathname: "/write",
+      // push()는 history stack에 새로운 페이지를 추가한다.
+      pathname: "/write", // pathname은 주소를 의미한다.
       state: {
+        // state는 주소에 담을 데이터를 의미한다.
         id: location.state.id,
       },
     });

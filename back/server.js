@@ -4,7 +4,6 @@ dotenv.config();
 const app = express();
 const PORT = process.env.DB_PORT;
 const user_info = require("./routes/index");
-const bodyParser = require("body-parser");
 
 app.use(express.json());
 

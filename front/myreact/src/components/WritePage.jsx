@@ -10,9 +10,9 @@ import TextField from "@mui/material/TextField";
 //id, title, content, date, weather, mood
 
 function WritePage() {
-  const location = useLocation();
-  const history = useHistory();
-  const id = location.state.id;
+  const location = useLocation(); //location 객체는 현재 페이지의 주소 정보를 가지고 있다.
+  const history = useHistory(); //history는 뒤로가기, 앞으로가기, 새로고침, 이동 등을 할 수 있게 해준다.
+  const id = location.state.id; //id 받아오기
   const [diaryTitle, setDiaryTitle] = useState("");
   const [diaryContent, setDiaryContent] = useState("");
   const [diaryWeather, setDiaryWeather] = useState("");
@@ -40,10 +40,10 @@ function WritePage() {
       return;
     }
 
-    let date = new Date(+new Date() + 3240 * 10000)
+    let date = new Date(+new Date() + 3240 * 10000) //한국시간으로 바꿔주기
       .toISOString()
-      .replace("T", " ")
-      .replace(/\..*/, "");
+      .replace("T", " ") //T를 공백으로 바꿔주기
+      .replace(/\..*/, ""); //2021-10-01 00:00:00
 
     axios //axios로 서버에 데이터 전송
       .post("http://localhost:5000/write", {
@@ -55,7 +55,7 @@ function WritePage() {
         date: date,
       })
       .then((res) => {
-        alert(res.data.msg);
+        alert(res.data.msg); //서버에서 받아온 메세지
       })
       .catch((err) => {
         console.log(err);
@@ -63,7 +63,7 @@ function WritePage() {
   };
 
   const checkContentLength = (e) => {
-    document.getElementById("textCount").innerHTML = e.target.value.length;
+    document.getElementById("textCount").innerHTML = e.target.value.length; //글자수 세기
     if (e.target.value.length > 500) {
       e.preventDefault();
       alert("글자수는 500자를 넘을 수 없습니다.");
@@ -124,7 +124,7 @@ function WritePage() {
       <button
         type="button"
         onClick={() => {
-          history.goBack();
+          history.goBack(); //뒤로가기
           return false;
         }}
       >

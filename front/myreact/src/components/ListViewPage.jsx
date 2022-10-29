@@ -1,31 +1,28 @@
+import React from "react";
 import axios from "axios";
+import { useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
+import HTMLFlipBook from "react-pageflip";
+import "../css/ListViewPage.css";
+
+const Page = React.forwardRef((props, ref) => {
+  return (
+    <div className="demoPage" ref={ref}>
+      <h1>{props.title}</h1>
+      <p>{props.content}</p>
+      <p>{props.weather}</p>
+      <p>{props.mood}</p>
+      <p>{props.date}</p>
+    </div>
+  );
+});
 
 function ListViewPage() {
   const location = useLocation();
   const history = useHistory();
   const id = location.state.id;
-  // const [diaryList, setDiaryList] = useState({});
-
-  const tset = (test) => {
-    var object = test;
-    var keys = Object.keys(object);
-    var values = Object.values(object);
-    // document.getElementById("name").innerHTML = "이놈";
-
-    for (var i = 0; i < keys.length; i++) {
-      document.getElementById("name").innerHTML += "<hr />";
-      document.getElementById("name").innerHTML += keys[i] + "&nbsp";
-      document.getElementById("name").innerHTML += values[i].id + "&nbsp";
-      document.getElementById("name").innerHTML += values[i].title + "&nbsp";
-      document.getElementById("name").innerHTML += values[i].content + "&nbsp";
-      document.getElementById("name").innerHTML += values[i].weather + "&nbsp";
-      document.getElementById("name").innerHTML += values[i].mood + "&nbsp";
-      document.getElementById("name").innerHTML += values[i].date + "&nbsp";
-      console.log(keys[i], values[i]);
-    }
-  };
+  const [diaryList, setDiaryList] = useState([]);
 
   useEffect(() => {
     axios
@@ -33,7 +30,7 @@ function ListViewPage() {
         id: id,
       })
       .then((res) => {
-        tset(res.data.diaryList); //object로 받아옴
+        setDiaryList(res.data.diaryList);
       })
       .catch((err) => {
         console.log(err);
@@ -41,12 +38,16 @@ function ListViewPage() {
   }, [id]);
 
   return (
-    <div>
-      <div id="name" />
+    <div class="div">
+      <HTMLFlipBook width={350} height={500}>
+        {diaryList.map((diary) => {
+          return <Page title={diary.title} content={diary.content} weather={diary.weather} mood={diary.mood} date={diary.date} />;
+        })}
+      </HTMLFlipBook>
       <button
         type="button"
         onClick={() => {
-          history.goBack();
+          history.goBack(); //뒤로가기
           return false;
         }}
       >
