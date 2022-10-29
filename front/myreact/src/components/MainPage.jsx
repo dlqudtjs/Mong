@@ -24,10 +24,17 @@ function MainPage() {
     });
   };
 
+  const onclickLogout = () => {
+    history.push({
+      pathname: "/login",
+    });
+  };
+
   return (
     <div>
       <input type="button" value="글쓰기" onClick={onclickWrite} />
       <input type="button" value="글목록" onClick={onclickListView} />
+      <input type="button" value="로그아웃" onClick={onclickLogout} />
     </div>
   );
 }

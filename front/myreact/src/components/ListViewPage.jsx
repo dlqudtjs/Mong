@@ -9,11 +9,11 @@ import "../css/ListViewPage.css";
 const Page = React.forwardRef((props, ref) => {
   return (
     <div className="demoPage" ref={ref}>
-      <h1>{props.title}</h1>
-      <p>{props.content}</p>
-      <p>{props.weather}</p>
-      <p>{props.mood}</p>
-      <p>{props.date}</p>
+      <h1>{props.diary.title}</h1>
+      <p>{props.diary.content}</p>
+      <p>{props.diary.weather}</p>
+      <p>{props.diary.mood}</p>
+      <p>{props.diary.date}</p>
     </div>
   );
 });
@@ -38,10 +38,10 @@ function ListViewPage() {
   }, [id]);
 
   return (
-    <div class="div">
+    <div className="diary">
       <HTMLFlipBook width={350} height={500}>
         {diaryList.map((diary) => {
-          return <Page title={diary.title} content={diary.content} weather={diary.weather} mood={diary.mood} date={diary.date} />;
+          return <Page key={diary.date} diary={diary} />;
         })}
       </HTMLFlipBook>
       <button
