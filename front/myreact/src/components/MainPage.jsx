@@ -1,4 +1,5 @@
 import { useLocation, useHistory } from "react-router-dom";
+import "../css/MainPage.scoped.css";
 
 function MainPage() {
   const location = useLocation();
@@ -31,10 +32,38 @@ function MainPage() {
   };
 
   return (
-    <div>
-      <input type="button" value="글쓰기" onClick={onclickWrite} />
-      <input type="button" value="글목록" onClick={onclickListView} />
-      <input type="button" value="로그아웃" onClick={onclickLogout} />
+    <div className="root">
+      <div className="main">
+        <main className="page-content">
+          <div className="card">
+            <div className="content">
+              <h2 className="title">Write</h2>
+              <p className="copy">자신의 일기를 작성해보세요!</p>
+              <button className="btn" onClick={onclickWrite}>
+                Write
+              </button>
+            </div>
+          </div>
+          <div className="card">
+            <div className="content">
+              <h2 className="title">Read</h2>
+              <p className="copy">작성한 일기를 읽어보세요!</p>
+              <button className="btn" onClick={onclickListView}>
+                Read
+              </button>
+            </div>
+          </div>
+          <div className="card">
+            <div className="content">
+              <h2 className="title">Logout</h2>
+              <p className="copy">다음에 또 오세요!</p>
+              <button className="btn" onClick={onclickLogout}>
+                Logout
+              </button>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

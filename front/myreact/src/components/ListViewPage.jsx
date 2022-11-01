@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import HTMLFlipBook from "react-pageflip";
-import "../css/ListViewPage.css";
+import "../css/ListViewPage.scoped.css";
 
 const Page = React.forwardRef((props, ref) => {
   return (

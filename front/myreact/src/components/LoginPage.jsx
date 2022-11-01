@@ -41,20 +41,10 @@ function LoginPage() {
     <div className={styles.loginbody}>
       <div className={styles.App}>
         <div className={styles.inputcontainer}>
-          <input
-            type="text"
-            placeholder="Id"
-            value={id}
-            onChange={onChangeId}
-          />
+          <input type="text" placeholder="Id" value={id} onChange={onChangeId} />
         </div>
         <div className={styles.inputcontainer}>
-          <input
-            type="password"
-            placeholder="Password"
-            value={psword}
-            onChange={onChangePassword}
-          />
+          <input type="password" placeholder="Password" value={psword} onChange={onChangePassword} />
         </div>
         <button type="button" onClick={onClickLogin}>
           Log In
