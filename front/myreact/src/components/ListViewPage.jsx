@@ -1,12 +1,13 @@
 import React from "react";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import HTMLFlipBook from "react-pageflip";
 import "../css/ListViewPage.scoped.css";
 
 const Page = React.forwardRef((props, ref) => {
+  //forwardRef는 ref를 전달받아서 자식 컴포넌트에 전달해주는 역할을 한다.
   return (
     <div className="demoPage" ref={ref}>
       <h1>{props.diary.title}</h1>

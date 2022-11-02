@@ -1,13 +1,109 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import axios from "axios";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import TextField from "@mui/material/TextField";
+// import Radio from "@mui/material/Radio";
+// import RadioGroup from "@mui/material/RadioGroup";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import FormControl from "@mui/material/FormControl";
+// import FormLabel from "@mui/material/FormLabel";
+// import TextField from "@mui/material/TextField";
+import "../css/WritePage.scoped.css";
 //id, title, content, date, weather, mood
+
+class Flipper {
+  constructor(node, currentTime, nextTime) {
+    this.isFlipping = false;
+    this.duration = 600;
+    this.flipNode = node;
+    this.frontNode = node.querySelector(".front");
+    this.backNode = node.querySelector(".back");
+    this.setFrontTime(currentTime);
+    this.setBackTime(nextTime);
+  }
+  setFrontTime(time) {
+    this.frontNode.dataset.number = time;
+  }
+  setBackTime(time) {
+    this.backNode.dataset.number = time;
+  }
+  flipDown(currentTime, nextTime) {
+    if (this.isFlipping) {
+      return false;
+    }
+    this.isFlipping = true;
+    this.setFrontTime(currentTime);
+    this.setBackTime(nextTime);
+    this.flipNode.classList.add("running");
+    setTimeout(() => {
+      this.flipNode.classList.remove("running");
+      this.isFlipping = false;
+      this.setFrontTime(nextTime);
+    }, this.duration);
+  }
+}
+
+const getTimeFromDate = (date) =>
+  date
+    .toTimeString()
+    .slice(0, 8)
+    .split(":")
+    .join("");
+
+const Clock = () => {
+  const i = setInterval(() => {
+    let now = new Date();
+    let nowTimeStr = getTimeFromDate(new Date(now.getTime() - 1000));
+    let nextTimeStr = getTimeFromDate(now);
+    let flips = document.querySelectorAll(".flip");
+    let flippers = Array.from(flips).map((flip, i) => new Flipper(flip, nowTimeStr[i], nextTimeStr[i]));
+    for (let i = 0; i < flippers.length; i++) {
+      if (nowTimeStr[i] === nextTimeStr[i]) {
+        continue;
+      }
+      flippers[i].flipDown(nowTimeStr[i], nextTimeStr[i]);
+    }
+  }, 1000);
+
+  useEffect(() => {
+    //컴포넌트가 파괴 될 때
+    return () => clearInterval(i);
+  });
+
+  // useEffect(() => {
+  //   return () => clearInterval(i);
+  // }, []);
+
+  return (
+    <div className="clock">
+      <div className="flip">
+        <div className="digital front" data-number="0" />
+        <div className="digital back" data-number="1" />
+      </div>
+      <div className="flip">
+        <div className="digital front" data-number="0" />
+        <div className="digital back" data-number="1" />
+      </div>
+      <em className="divider">:</em>
+      <div className="flip">
+        <div className="digital front" data-number="0" />
+        <div className="digital back" data-number="1" />
+      </div>
+      <div className="flip">
+        <div className="digital front" data-number="0" />
+        <div className="digital back" data-number="1" />
+      </div>
+      <em className="divider">:</em>
+      <div className="flip">
+        <div className="digital front" data-number="0" />
+        <div className="digital back" data-number="1" />
+      </div>
+      <div className="flip">
+        <div className="digital front" data-number="0" />
+        <div className="digital back" data-number="1" />
+      </div>
+    </div>
+  );
+};
 
 function WritePage() {
   const location = useLocation(); //location 객체는 현재 페이지의 주소 정보를 가지고 있다.
@@ -18,24 +114,24 @@ function WritePage() {
   const [diaryWeather, setDiaryWeather] = useState("");
   const [diaryMood, setDiaryMood] = useState("");
 
-  const onChangeTitle = (e) => {
-    setDiaryTitle(e.target.value);
-  };
+  // const onChangeTitle = (e) => {
+  //   setDiaryTitle(e.target.value);
+  // };
 
   const onChangeContent = (e) => {
-    checkContentLength(e);
+    checkContentLine(e);
     setDiaryContent(e.target.value);
   };
 
-  const onChangeDiaryWeather = (e) => {
-    setDiaryWeather(e.target.value);
-  };
+  // const onChangeDiaryWeather = (e) => {
+  //   setDiaryWeather(e.target.value);
+  // };
 
-  const onChangeDiaryMood = (e) => {
-    setDiaryMood(e.target.value);
-  };
+  // const onChangeDiaryMood = (e) => {
+  //   setDiaryMood(e.target.value);
+  // };
 
-  const onClickSubmit = (e) => {
+  const onClickSubmit = () => {
     if (!submitCheck()) {
       return;
     }
@@ -62,12 +158,12 @@ function WritePage() {
       });
   };
 
-  const checkContentLength = (e) => {
-    document.getElementById("textCount").innerHTML = e.target.value.length; //글자수 세기
-    if (e.target.value.length > 500) {
-      e.preventDefault();
-      alert("글자수는 500자를 넘을 수 없습니다.");
-      setDiaryContent(e.target.value.substring(0, 500));
+  const checkContentLine = (e) => {
+    let content = e.target.value;
+    let contentLine = content.split("\n");
+    if (contentLine.length > 10) {
+      alert("10줄 이상 입력할 수 없습니다.");
+      setDiaryContent(contentLine.slice(0, 10).join("\n"));
     }
   };
 
@@ -94,7 +190,20 @@ function WritePage() {
 
   return (
     <>
-      <TextField id="outlined-multiline-static" label="Title" multiline rows={1} margin="normal" onChange={onChangeTitle} />
+      <header>
+        <Clock />
+      </header>
+      <div className="body">
+        <div className="backGround">
+          <div className="writeSpace">
+            <input className="titleField" type="text" placeholder="Title" maxLength={15} />
+            <div className="question" />
+            <textarea className="contentField" placeholder="Content" onChange={onChangeContent} wrap="virtual" />
+          </div>
+          <div className="funcSpace" />
+        </div>
+      </div>
+      {/* <TextField id="outlined-multiline-static" label="Title" multiline rows={1} margin="normal" onChange={onChangeTitle} />
       <br />
       <TextField id="outlined-multiline-static" label="Content" multiline rows={10} margin="normal" onChange={onChangeContent} />(<span id="textCount">0</span>/500자리)
       <br />
@@ -118,6 +227,7 @@ function WritePage() {
         </RadioGroup>
       </FormControl>
       <br />
+      */}
       <button type="button" onClick={onClickSubmit}>
         저장
       </button>
