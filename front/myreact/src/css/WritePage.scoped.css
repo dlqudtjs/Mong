@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap");
+
 .body {
   display: flex;
   justify-content: center;
@@ -5,6 +7,7 @@
 }
 
 .backGround {
+  font-family: "Hi Melody", cursive;
   background-color: rgba(173, 103, 12, 0.788);
   height: 500px;
   width: 800px;
@@ -12,6 +15,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.userName {
+  vertical-align: text-top;
 }
 
 .writeSpace {
@@ -20,6 +28,7 @@
   width: 350px;
   border-radius: 30px 0px 0px 30px;
   border-right: 1px solid rgb(160, 155, 155);
+  box-shadow: -10px 10px 30px 0px rgba(0, 0, 0, 0.25), 0px -10px 30px 0px rgba(0, 0, 0, 0.25);
 }
 
 .funcSpace {
@@ -27,25 +36,263 @@
   height: 400px;
   width: 350px;
   border-radius: 0px 30px 30px 0px;
+  box-shadow: 10px 10px 30px 0px rgba(0, 0, 0, 0.25), 10px -10px 30px 0px rgba(0, 0, 0, 0.25);
 }
 
+li {
+  list-style: none;
+}
+
+.container {
+  display: flex;
+  margin-top: -10px;
+  margin-left: -10px;
+}
+
+/* Weather RadioBox css */
+
+.weatherList {
+  flex: 0 0 20rem;
+}
+
+.weather__list__item {
+  position: relative;
+}
+
+.weather__list__item:hover > .weatherlabel {
+  color: #19d868;
+}
+.weather__list__item:hover > .weatherlabel::before {
+  border: 0.5rem solid #19d868;
+  margin-right: 1rem;
+}
+
+.weather-radio-btn {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+}
+.weather-radio-btn:checked + .weatherlabel {
+  color: #19d868;
+}
+.weather-radio-btn:checked + .weatherlabel::before {
+  margin-right: 1rem;
+  border: 0.4rem solid #009688;
+}
+
+.weatherlabel {
+  display: flex;
+  align-items: center;
+  padding: 0.1rem 0;
+  font-size: 15px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s linear;
+}
+
+.weatherlabel::before {
+  display: inline-block;
+  content: "";
+  height: 0.25rem;
+  width: 0.25rem;
+  margin-right: 0.625rem;
+  border: 0.3rem solid rgb(80, 140, 148);
+  border-radius: 50%;
+  transition: all 0.25s linear;
+}
+
+/* Time RadioBox css */
+
+.timeList {
+  flex: 0 0 20rem;
+}
+
+.time__list__item {
+  position: relative;
+}
+
+.time__list__item:hover > .timelabel {
+  color: #daba52;
+}
+.time__list__item:hover > .timelabel::before {
+  border: 0.5rem solid #daba52;
+  margin-right: 1rem;
+}
+
+.time-radio-btn {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+}
+.time-radio-btn:checked + .timelabel {
+  color: #daba52;
+}
+.time-radio-btn:checked + .timelabel::before {
+  margin-right: 1rem;
+  border: 0.4rem solid #daba52;
+}
+
+.timelabel {
+  display: flex;
+  align-items: center;
+  padding: 0.1rem 0;
+  font-size: 15px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s linear;
+}
+
+.timelabel::before {
+  display: inline-block;
+  content: "";
+  height: 0.25rem;
+  width: 0.25rem;
+  margin-right: 0.625rem;
+  border: 0.3rem solid #daba52;
+  border-radius: 50%;
+  transition: all 0.25s linear;
+}
+
+/* Expresstion of Mood css */
+.mood {
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+/* Mood Slider css */
+
+.moodSlider {
+  margin-top: 10px;
+}
+
+/* 스티커 css */
+
+.text {
+  text-align: center;
+  font-size: 25px;
+}
+
+.note {
+  width: 140px;
+  height: 140px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  float: left;
+  margin: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+/* 첫 번째 스티커 css */
+
+.sticky1 {
+  transform: rotate(-3.5deg);
+  -webkit-transform: rotate(-3.5deg);
+  background-color: #cbfafa;
+}
+
+.stiker1 {
+  height: 10px;
+  background-color: #a4dfdf;
+}
+
+/* 두 번째 스티커 css */
+
+.sticky2 {
+  margin-top: 20px;
+  transform: rotate(3deg);
+  -webkit-transform: rotate(3deg);
+  background-color: #fff780;
+}
+
+.stiker2 {
+  height: 10px;
+  background-color: #e9e069;
+}
+
+/* 세 번째 스티커 css */
+
+.sticky3 {
+  margin-top: 40px;
+  transform: rotate(1deg);
+  -webkit-transform: rotate(1deg);
+  background-color: #f8cdcd;
+}
+
+.stiker3 {
+  height: 10px;
+  background-color: #e9b2b2;
+}
+
+/* 네 번째 스티커 css */
+
+.sticky4 {
+  margin-top: 50px;
+  transform: rotate(-3.5deg);
+  -webkit-transform: rotate(351deg);
+  background-color: #e9c99f;
+}
+
+.stiker4 {
+  height: 10px;
+  background-color: #d4b17c;
+}
+
+/* 제목 css */
+
 .titleField {
+  font-family: "Hi Melody", cursive;
   border: none;
+  outline: none;
+  margin-top: 10px;
   font-size: 18px;
-  color: rgb(59, 56, 56);
+  color: rgb(0, 0, 0);
+  margin-left: 30px;
+  width: 300px;
 }
 
 input::placeholder {
+  font-family: "Hi Melody", cursive;
+  color: rgb(0, 0, 0);
+}
+
+/* 질문 css */
+
+.question {
+  height: 30px;
+  width: 350px;
+  float: left;
+}
+
+.questionString {
+  float: left;
+  height: 30px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.randomQuestionBtn {
+  margin-top: 1px;
+  float: left;
+  height: 30px;
+  margin-left: 45px;
+}
+
+/* 글쓰기 css */
+
+textarea::placeholder {
+  font-family: "Hi Melody", cursive;
   font-size: 20px;
   color: rgb(0, 0, 0);
 }
 
-textarea::placeholder {
-  font-size: 20px;
-  color: rgb(15, 14, 14);
-}
-
 .contentField {
+  font-family: "Hi Melody", cursive;
   outline: none;
   border: none;
   overflow: hidden;
@@ -55,17 +302,122 @@ textarea::placeholder {
   background-image: linear-gradient(to right, white 10px, transparent 10px), linear-gradient(to left, white 10px, transparent 10px),
     repeating-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
   line-height: 31px;
-  font-size: 12px;
+  font-size: 20px;
   padding: 8px 10px;
   height: 300px;
   width: 330px;
   resize: none;
 }
 
-.question {
-  width: 350px;
-  height: 30px;
+/* submitBtn css */
+
+.pinkDiv {
+  margin: 210px 40px 0px 190px;
+  transform: rotate(3deg);
 }
+
+.blueDiv {
+  margin: 50px 40px 0px 190px;
+  transform: rotate(-4deg);
+}
+
+.pink {
+  --paper-color: #ecb2ba;
+  --paper-dark: #c6939a;
+  --shadow-size: 1px;
+  --transparent: rgba(236, 178, 186, 0);
+}
+
+.blue {
+  --paper-color: #d5e0f9;
+  --paper-dark: #c2d0ea;
+  --shadow-size: 3px;
+  --transparent: rgba(213, 224, 249, 0);
+}
+
+.paper {
+  position: relative;
+  background: linear-gradient(to bottom right, var(--paper-dark), 20%, rgba(255, 255, 255, 0)), var(--paper-color);
+  min-width: 100px;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Caveat", cursive;
+  font-size: 1.1rem;
+  box-shadow: var(--shadow-size) var(--shadow-size) 2px var(--paper-dark);
+  margin: auto;
+}
+
+.paper::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(255, 255, 255, 0), 50%, var(--paper-dark), 51%, rgba(255, 255, 255, 0)),
+    linear-gradient(to right, rgba(255, 255, 255, 0), 50%, var(--paper-dark), 51%, rgba(255, 255, 255, 0));
+}
+
+.tape-section {
+  position: absolute;
+  width: 100%;
+}
+
+.top-tape {
+  position: absolute;
+  height: 1.9vmin;
+  top: -5px;
+  width: 130%;
+  background-color: #dbd8be;
+  border-right: 1px dotted #b7b49d;
+  border-left: 1px dotted #b7b49d;
+  opacity: 0.5;
+}
+
+.tape-section:first-of-type {
+  top: 0;
+}
+
+.tape-section:last-of-type {
+  bottom: 0;
+}
+
+.tape-section::before,
+.tape-section::after {
+  content: "";
+  width: 7vmin;
+  height: 1.9vmin;
+  position: absolute;
+  background-color: #dbd8be;
+  opacity: 0.5;
+  border-right: 1px dotted #b7b49d;
+  border-left: 1px dotted #b7b49d;
+}
+
+.tape-section:last-of-type::after {
+  transform: rotate(-45deg);
+  right: -3vmin;
+  top: -1vmin;
+}
+
+.tape-section:first-of-type::before {
+  transform: rotate(-45deg);
+  left: -4vmin;
+}
+
+.tape-section:first-of-type::after {
+  transform: rotate(45deg);
+  right: -4vmin;
+  top: 0;
+}
+
+.tape-section:last-of-type::before {
+  transform: rotate(45deg);
+  left: -3vmin;
+  bottom: -1vmin;
+}
+
+/* 시계 css */
 
 header {
   margin-top: 50px;

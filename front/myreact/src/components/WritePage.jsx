@@ -1,15 +1,23 @@
 import { useState, useEffect } from "react";
 import { useLocation, useHistory } from "react-router-dom";
+import Button from "@mui/material/Button";
 import axios from "axios";
-// import Radio from "@mui/material/Radio";
-// import RadioGroup from "@mui/material/RadioGroup";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import FormControl from "@mui/material/FormControl";
-// import FormLabel from "@mui/material/FormLabel";
-// import TextField from "@mui/material/TextField";
+import React from "react";
+import Slider from "@mui/material/Slider";
 import "../css/WritePage.scoped.css";
-//id, title, content, date, weather, mood
 
+const questions = [
+  "오늘 하루는 어땠나요?",
+  "뿌듯한 일이 있었나요?",
+  "특별한 일이 생겼나요?",
+  "재밌는 일이 있었나요?",
+  "행복한 일이 있었나요?",
+  "후회한 일이 있었나요?",
+  "아쉬운 일이 있었나요?",
+  "속상한 일이 있었나요?",
+];
+
+//시계 컴포넌트
 class Flipper {
   constructor(node, currentTime, nextTime) {
     this.isFlipping = false;
@@ -50,7 +58,7 @@ const getTimeFromDate = (date) =>
     .join("");
 
 const Clock = () => {
-  const i = setInterval(() => {
+  const refresh = () => {
     let now = new Date();
     let nowTimeStr = getTimeFromDate(new Date(now.getTime() - 1000));
     let nextTimeStr = getTimeFromDate(now);
@@ -62,16 +70,14 @@ const Clock = () => {
       }
       flippers[i].flipDown(nowTimeStr[i], nextTimeStr[i]);
     }
-  }, 1000);
+  };
+  refresh();
+  const i = setInterval(refresh, 1000);
 
   useEffect(() => {
     //컴포넌트가 파괴 될 때
     return () => clearInterval(i);
   });
-
-  // useEffect(() => {
-  //   return () => clearInterval(i);
-  // }, []);
 
   return (
     <div className="clock">
@@ -105,59 +111,72 @@ const Clock = () => {
   );
 };
 
+//value를 mood로 변환
+const valueToMood = (value) => {
+  if (value <= 20) return "bad";
+  if (value <= 40) return "sad";
+  if (value <= 60) return "soso";
+  if (value <= 80) return "happy";
+  if (value <= 100) return "great";
+};
+
+//mood를 그림으로 변환
+const drawMood = (value) => {
+  const mood = new Map([["bad", "😠"], ["sad", "😢"], ["soso", "😐"], ["happy", "😏"], ["great", "😁"]]);
+  document.getElementById("mood").innerHTML = mood.get(valueToMood(value));
+};
+
 function WritePage() {
   const location = useLocation(); //location 객체는 현재 페이지의 주소 정보를 가지고 있다.
   const history = useHistory(); //history는 뒤로가기, 앞으로가기, 새로고침, 이동 등을 할 수 있게 해준다.
   const id = location.state.id; //id 받아오기
+
   const [diaryTitle, setDiaryTitle] = useState("");
+  const [diaryQuestion, setDiaryQuestion] = useState(questions[Math.floor(Math.random() * questions.length)]);
   const [diaryContent, setDiaryContent] = useState("");
   const [diaryWeather, setDiaryWeather] = useState("");
+  const [diaryTime, setDiaryTime] = useState("");
   const [diaryMood, setDiaryMood] = useState("");
 
-  // const onChangeTitle = (e) => {
-  //   setDiaryTitle(e.target.value);
-  // };
+  const onChangeTitle = (e) => {
+    setDiaryTitle(e.target.value);
+  };
 
   const onChangeContent = (e) => {
     checkContentLine(e);
     setDiaryContent(e.target.value);
   };
 
-  // const onChangeDiaryWeather = (e) => {
-  //   setDiaryWeather(e.target.value);
-  // };
-
-  // const onChangeDiaryMood = (e) => {
-  //   setDiaryMood(e.target.value);
-  // };
-
-  const onClickSubmit = () => {
-    if (!submitCheck()) {
-      return;
-    }
-
-    let date = new Date(+new Date() + 3240 * 10000) //한국시간으로 바꿔주기
-      .toISOString()
-      .replace("T", " ") //T를 공백으로 바꿔주기
-      .replace(/\..*/, ""); //2021-10-01 00:00:00
-
-    axios //axios로 서버에 데이터 전송
-      .post("http://localhost:5000/write", {
-        id: id,
-        title: diaryTitle,
-        content: diaryContent,
-        weather: diaryWeather,
-        mood: diaryMood,
-        date: date,
-      })
-      .then((res) => {
-        alert(res.data.msg); //서버에서 받아온 메세지
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const onChangeDiaryWeather = (e) => {
+    setDiaryWeather(e.target.value);
   };
 
+  const onChangeDiaryTime = (e) => {
+    setDiaryTime(e.target.value);
+  };
+
+  const onChangeDiaryMood = (e) => {
+    setDiaryMood(valueToMood(e.target.value));
+    drawMood(e.target.value);
+  };
+
+  //랜덤 질문 생성
+  function RandomQuestion() {
+    const setQuestionRandom = () => {
+      setDiaryQuestion(questions[Math.floor(Math.random() * questions.length)]);
+    };
+
+    return (
+      <div>
+        <Button className="randomQuestionBtn" onClick={setQuestionRandom}>
+          랜덤 질문
+        </Button>
+        <div className="questionString">{diaryQuestion}</div>
+      </div>
+    );
+  }
+
+  //줄 수 제한
   const checkContentLine = (e) => {
     let content = e.target.value;
     let contentLine = content.split("\n");
@@ -167,6 +186,7 @@ function WritePage() {
     }
   };
 
+  //저장 시 놓친 입력값 확인
   const submitCheck = () => {
     if (diaryTitle === "") {
       alert("제목을 입력해주세요.");
@@ -180,6 +200,10 @@ function WritePage() {
       alert("날씨를 선택해주세요.");
       return false;
     }
+    if (diaryTime === "") {
+      alert("시간을 선택해주세요.");
+      return false;
+    }
     if (diaryMood === "") {
       alert("기분을 선택해주세요.");
       return false;
@@ -188,58 +212,173 @@ function WritePage() {
     return true;
   };
 
+  const onClickSubmit = () => {
+    if (!submitCheck()) {
+      //입력값 확인
+      return;
+    }
+
+    let date = new Date(+new Date() + 3240 * 10000) //한국시간으로 바꿔주기
+      .toISOString()
+      .replace("T", " ") //T를 공백으로 바꿔주기
+      .replace(/\..*/, ""); //2021-10-01 00:00:00
+
+    axios //axios로 서버에 데이터 전송
+      .post("http://localhost:5000/write", {
+        id: id,
+        title: diaryTitle,
+        question: diaryQuestion,
+        content: diaryContent,
+        weather: diaryWeather,
+        mood: diaryMood,
+        time: diaryTime,
+        date: date,
+      })
+      .then((res) => {
+        alert(res.data.msg); //서버에서 받아온 메세지
+        history.goBack(); //뒤로가기
+        // history.push("/main"); //메인으로 이동
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
-      <header>
-        <Clock />
-      </header>
-      <div className="body">
-        <div className="backGround">
-          <div className="writeSpace">
-            <input className="titleField" type="text" placeholder="Title" maxLength={15} />
-            <div className="question" />
-            <textarea className="contentField" placeholder="Content" onChange={onChangeContent} wrap="virtual" />
+      <div className="writePage">
+        {/* 시계 */}
+        <header>
+          <Clock />
+        </header>
+        {/* 다이어리 테두리 */}
+        <div className="body">
+          <div className="backGround">
+            {/* 글쓰기 공간 */}
+            <div className="writeSpace">
+              {/* 제목 */}
+              <input className="titleField" type="text" placeholder="Title" onChange={onChangeTitle} />
+              {/* 질문 */}
+              <div className="question">
+                <RandomQuestion />
+              </div>
+              {/* 글내용 */}
+              <textarea className="contentField" placeholder="Content" onChange={onChangeContent} maxLength={250} />
+            </div>
+            {/* 기능 공간 */}
+            <div className="funcSpace">
+              {/* 첫 번째 스티커(날씨) */}
+              <div className="note sticky1">
+                <div className="stiker1" />
+                <div className="text">Weather</div>
+                <div className="container">
+                  <ul className="weatherList" onChange={onChangeDiaryWeather}>
+                    <li className="weather__list__item">
+                      <input type="radio" className="weather-radio-btn" name="weatherChoice" id="w-a-opt" value="Sun" />
+                      <label htmlFor="w-a-opt" className="weatherlabel">
+                        Sun
+                      </label>
+                    </li>
+
+                    <li className="weather__list__item">
+                      <input type="radio" className="weather-radio-btn" name="weatherChoice" id="w-b-opt" value="Cloudy" />
+                      <label htmlFor="w-b-opt" className="weatherlabel">
+                        Cloudy
+                      </label>
+                    </li>
+
+                    <li className="weather__list__item">
+                      <input type="radio" className="weather-radio-btn" name="weatherChoice" id="w-c-opt" value="Rain" />
+                      <label htmlFor="w-c-opt" className="weatherlabel">
+                        Rain
+                      </label>
+                    </li>
+
+                    <li className="weather__list__item">
+                      <input type="radio" className="weather-radio-btn" name="weatherChoice" id="w-d-opt" value="Snow" />
+                      <label htmlFor="w-d-opt" className="weatherlabel">
+                        Snow
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              {/* 두 번째 스티커(시간) */}
+              <div className="note sticky2">
+                <div className="stiker2" />
+                <div className="text">Time</div>
+                <div className="container">
+                  <ul className="timeList" onChange={onChangeDiaryTime}>
+                    <li className="time__list__item">
+                      <input type="radio" className="time-radio-btn" name="timeChoice" id="t-a-opt" value="Morning" />
+                      <label htmlFor="t-a-opt" className="timelabel">
+                        Morning
+                      </label>
+                    </li>
+
+                    <li className="time__list__item">
+                      <input type="radio" className="time-radio-btn" name="timeChoice" id="t-b-opt" value="Noon" />
+                      <label htmlFor="t-b-opt" className="timelabel">
+                        Noon
+                      </label>
+                    </li>
+
+                    <li className="time__list__item">
+                      <input type="radio" className="time-radio-btn" name="timeChoice" id="t-c-opt" value="Evening" />
+                      <label htmlFor="t-c-opt" className="timelabel">
+                        Evening
+                      </label>
+                    </li>
+
+                    <li className="time__list__item">
+                      <input type="radio" className="time-radio-btn" name="timeChoice" id="t-d-opt" value="Night" />
+                      <label htmlFor="t-d-opt" className="timelabel">
+                        Night
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              {/* 세 번째 스티커(기분) */}
+              <div className="note sticky3">
+                <div className="stiker3" />
+                <div className="text">Mood</div>
+                <div className="mood" id="mood">
+                  😐
+                </div>
+                <Slider
+                  className="moodSlider"
+                  size="small"
+                  defaultValue={50}
+                  onChange={onChangeDiaryMood}
+                  sx={{
+                    color: "#cc8787",
+                  }}
+                />
+              </div>
+              {/* submit, cancle 구역 */}
+              <div className="pinkDiv">
+                <div className="paper pink" onClick={onClickSubmit}>
+                  <div className="tape-section" />
+                  <p>submit</p>
+                  <div className="tape-section" />
+                </div>
+              </div>
+              <div className="blueDiv">
+                <div
+                  className="paper blue"
+                  onClick={() => {
+                    history.goBack(); //뒤로가기
+                  }}
+                >
+                  <div className="top-tape" />
+                  <p>cancle</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="funcSpace" />
         </div>
       </div>
-      {/* <TextField id="outlined-multiline-static" label="Title" multiline rows={1} margin="normal" onChange={onChangeTitle} />
-      <br />
-      <TextField id="outlined-multiline-static" label="Content" multiline rows={10} margin="normal" onChange={onChangeContent} />(<span id="textCount">0</span>/500자리)
-      <br />
-      <FormControl>
-        <FormLabel id="demo-radio-buttons-group-label">weather</FormLabel>
-        <RadioGroup aria-labelledby="demo-radio-buttons-group-label" name="radio-buttons-group">
-          <div onChange={onChangeDiaryWeather}>
-            <FormControlLabel value="sunny" control={<Radio />} label="맑음" />
-            <FormControlLabel value="cloudy" control={<Radio />} label="흐림" />
-            <FormControlLabel value="rain" control={<Radio />} label="비" />
-          </div>
-        </RadioGroup>
-      </FormControl>
-      <FormControl>
-        <FormLabel id="demo-radio-buttons-group-label">mood</FormLabel>
-        <RadioGroup aria-labelledby="demo-radio-buttons-group-label" name="radio-buttons-group">
-          <div onChange={onChangeDiaryMood}>
-            <FormControlLabel value="good" control={<Radio />} label="good" />
-            <FormControlLabel value="bad" control={<Radio />} label="bad" />
-          </div>
-        </RadioGroup>
-      </FormControl>
-      <br />
-      */}
-      <button type="button" onClick={onClickSubmit}>
-        저장
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          history.goBack(); //뒤로가기
-          return false;
-        }}
-      >
-        뒤로가기
-      </button>
     </>
   );
 }

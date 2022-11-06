@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import styles from "../css/LoginPage.module.sass";
+import "../css/LoginPage.scoped.sass";
 
 function LoginPage() {
   const [id, setId] = useState("");
@@ -38,12 +38,12 @@ function LoginPage() {
   };
 
   return (
-    <div className={styles.loginbody}>
-      <div className={styles.App}>
-        <div className={styles.inputcontainer}>
+    <div className="loginbody">
+      <div className="App">
+        <div className="inputcontainer">
           <input type="text" placeholder="Id" value={id} onChange={onChangeId} />
         </div>
-        <div className={styles.inputcontainer}>
+        <div className="inputcontainer">
           <input type="password" placeholder="Password" value={psword} onChange={onChangePassword} />
         </div>
         <button type="button" onClick={onClickLogin}>

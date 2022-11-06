@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import styles from "../css/RegisterPage.module.sass";
+import "../css/RegisterPage.scoped.sass";
 
 function RegisterPage() {
   const [id, setId] = useState("");
@@ -62,18 +62,18 @@ function RegisterPage() {
   };
 
   return (
-    <div className={styles.registerbody}>
-      <div className={styles.App}>
-        <div className={styles.inputcontainer}>
+    <div className="registerbody">
+      <div className="App">
+        <div className="inputcontainer">
           <input type="text" placeholder="Id" value={id} onChange={onChangeId} />
         </div>
-        <div className={styles.inputcontainer}>
+        <div className="inputcontainer">
           <input type="text" placeholder="username" value={username} onChange={onChangeUserName} />
         </div>
-        <div className={styles.inputcontainer}>
+        <div className="inputcontainer">
           <input type="password" placeholder="Password" value={psword} onChange={onChangePassword} />
         </div>
-        <div className={styles.inputcontainer}>
+        <div className="inputcontainer">
           <input type="password" placeholder="PasswordCheck" value={checkPswrod} onChange={onChangeCheckPassword} />
         </div>
         <button type="button" onClick={onClickRegister}>
