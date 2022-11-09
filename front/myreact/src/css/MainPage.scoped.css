@@ -1,15 +1,25 @@
 @import url("https://fonts.googleapis.com/css?family=Cardo:400i|Rubik:400,700&display=swap");
 
 .root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
   --d: 700ms;
   --e: cubic-bezier(0.19, 1, 0.22, 1);
   --font-sans: "Rubik", sans-serif;
   --font-serif: "Cardo", serif;
 }
 
+.root .card {
+  margin : 20px;
+  border-radius: 30px;    
+}
+
 * {
   box-sizing: border-box;
 }
+
 
 html,
 body {
@@ -21,14 +31,17 @@ body {
 }
 
 .page-content {
-  display: grid;
-  grid-gap: 1rem;
-  padding: 1rem;
-  max-width: 850px;
-  margin: 0 auto;
-  margin-top: 200px;
+  display: flex;
+  justify-content: space-between;
   font-family: var(--font-sans);
+  /* padding: 1rem; */
+  /* max-width: 850px; */
+  /* margin: 0 auto; */
+  /* margin-top: 200px; */
+  /* display: flex;
+  justify-items: center; */
 }
+
 @media (min-width: 600px) {
   .page-content {
     grid-template-columns: repeat(2, 1fr);
@@ -46,7 +59,7 @@ body {
   align-items: flex-end;
   overflow: hidden;
   padding: 1rem;
-  width: 100%;
+  width: 50%;
   text-align: center;
   color: whitesmoke;
   background-color: whitesmoke;
