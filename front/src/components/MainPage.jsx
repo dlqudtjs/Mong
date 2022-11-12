@@ -27,7 +27,7 @@ function MainPage() {
 
   const onclickLogout = () => {
     history.push({
-      pathname: "/login",
+      pathname: "/randing",
     });
   };
 
