@@ -136,7 +136,7 @@ function WritePage() {
   const [diaryContent, setDiaryContent] = useState("");
   const [diaryWeather, setDiaryWeather] = useState("");
   const [diaryTime, setDiaryTime] = useState("");
-  const [diaryMood, setDiaryMood] = useState("");
+  const [diaryMood, setDiaryMood] = useState("soso");
 
   const onChangeTitle = (e) => {
     setDiaryTitle(e.target.value);

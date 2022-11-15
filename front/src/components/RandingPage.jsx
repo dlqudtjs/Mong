@@ -29,7 +29,20 @@ function RandingPage() {
 		});
 	}
 
+	const loginCheck = () => {
+		if (id === "" || psword === "") {
+			alert("아이디와 비밀번호를 입력해주세요.");
+			return false;
+		}
+
+		return true;
+	}
+
 	const onClickLogin = () => {
+		if (!loginCheck()) {
+			return;
+		}
+
 		axios
 			.post("http://localhost:5000/login", {
 				id: id,
@@ -115,7 +128,7 @@ function RandingPage() {
 				<h2>하루 한 장 Diary</h2>
 				<div className="container" id="container">
 					<div className="form-container sign-up-container">
-						<form action="#">
+						<div className="form">
 							<h1>Create Account</h1>
 							<div className="social-container">
 							</div>
@@ -124,17 +137,17 @@ function RandingPage() {
 							<input type="password" placeholder="비밀번호" onChange={onChangeRegistPassword} />
 							<input type="password" placeholder="비밀번호 확인" onChange={onChangeCheckPassword} />
 							<button onClick={onClickRegister}>Sign Up</button>
-						</form>
+						</div>
 					</div>
 					<div className="form-container sign-in-container">
-						<form action="#">
+						<div className="form">
 							<h1>Sign in</h1>
 							<div className="social-container">
 							</div>
 							<input type="text" placeholder="아이디" onChange={onChangeId} />
 							<input type="password" placeholder="비밀번호" onChange={onChangePassword} />
 							<button onClick={onClickLogin}>Sign In</button>
-						</form>
+						</div>
 					</div>
 					<div className="overlay-container">
 						<div className="overlay">
