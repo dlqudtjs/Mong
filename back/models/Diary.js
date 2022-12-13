@@ -9,11 +9,11 @@ class Diary {
     const diary = this.body;
 
     try {
-      if ((await DiaryStorage.save(diary)) === undefined) {
+      if ((await DiaryStorage.save(diary)) === undefined) { // 다이어리 저장 실패
         return { success: false, msg: "다이어리 저장 실패" };
       }
-      return {
-        success: true,
+      return { //다이어리 저장 성공
+        success: true, 
         msg: "다이어리 저장 성공",
       };
     } catch (err) {
@@ -26,10 +26,10 @@ class Diary {
 
     try {
       const data = await DiaryStorage.read(diary.id);
-      if (data === undefined) {
+      if (data === undefined) { // 다이어리 읽기 실패
         return { success: false, msg: "다이어리 읽기 실패" };
       }
-      return {
+      return { // 다이어리 읽기 성공
         diaryList: data,
         success: true,
         msg: "다이어리 읽기 성공",

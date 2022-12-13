@@ -38,22 +38,22 @@ function RandingPage() {
 		return true;
 	}
 
-	const onClickLogin = () => {
+	const onClickLogin = () => { // 로그인 버튼을 눌렀을 때 실행되는 함수
 		if (!loginCheck()) {
 			return;
 		}
 
-		axios
+		axios // 로그인 요청
 			.post("http://localhost:5000/login", {
 				id: id,
 				psword: psword,
 			})
-			.then((res) => {
-				alert(res.data.msg);
-				if (res.data.msg === "로그인 성공") {
+			.then((res) => { 	// 서버로부터 응답이 오면 실행되는 부분
+				alert(res.data.msg); // 서버로부터 받은 메시지를 alert로 띄움
+				if (res.data.msg === "로그인 성공") { // 서버에서 온 메시지가 "로그인 성공"이면
 					history.push({
 						pathname: "/main",
-						state: {
+						state: { // 로그인 성공시 main 페이지로 이동하면서 id를 전달
 							id: id,
 						},
 					});
@@ -103,21 +103,21 @@ function RandingPage() {
 		return true;
 	};
 
-	const onClickRegister = () => {
+	const onClickRegister = () => { // 회원가입 버튼 클릭시 실행되는 함수
 		if (!registerCheck()) {
 			return;
 		}
 
 		axios
-			.post("http://localhost:5000/register", {
+			.post("http://localhost:5000/register", { // 회원가입 요청
 				id: registId,
 				psword: registPsword,
 				username: username,
 			})
-			.then((res) => {
+			.then((res) => { // 서버로부터 응답이 오면 실행되는 부분
 				alert(res.data.msg);
 			})
-			.catch((err) => {
+			.catch((err) => { // 서버로부터 응답이 오지 않으면 실행되는 부분
 				console.log(err);
 			});
 	};

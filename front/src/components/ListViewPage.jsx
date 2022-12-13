@@ -6,10 +6,14 @@ import { useLocation, useHistory } from "react-router-dom";
 import HTMLFlipBook from "react-pageflip";
 import "../css/ListViewPage.scoped.css";
 
+//페이지가 처음 로딩 될 때, 쓴 글이 없으면 경고 메시지를 띄워주고 main으로 이동시킨다.
+
+
 const mood = new Map([["bad", "😠"], ["sad", "😢"], ["soso", "😐"], ["happy", "😏"], ["great", "😁"]]);
 
 const Page = React.forwardRef((props, ref) => {
   //forwardRef는 ref를 전달받아서 자식 컴포넌트에 전달해주는 역할을 한다.
+
 
   return (
     <div className="contentWrapper" ref={ref}>
@@ -39,6 +43,10 @@ function ListViewPage() {
       })
       .then((res) => {
         setDiaryList(res.data.diaryList);
+        if (res.data.diaryList.length === 0) {
+          alert("작성한 글이 없습니다.");
+          history.goBack();
+        }
       })
       .catch((err) => {
         console.log(err);

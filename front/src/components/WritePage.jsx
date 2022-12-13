@@ -162,7 +162,7 @@ function WritePage() {
 
   //랜덤 질문 생성
   function RandomQuestion() {
-    const setQuestionRandom = () => {
+    const setQuestionRandom = () => { // question 길이의 랜덤 수를 활용 -> 랜덤 질문 생성
       setDiaryQuestion(questions[Math.floor(Math.random() * questions.length)]);
     };
 
@@ -212,7 +212,7 @@ function WritePage() {
     return true;
   };
 
-  const onClickSubmit = () => {
+  const onClickSubmit = () => { //저장 버튼 클릭 시
     if (!submitCheck()) {
       //입력값 확인
       return;
@@ -237,7 +237,6 @@ function WritePage() {
       .then((res) => {
         alert(res.data.msg); //서버에서 받아온 메세지
         history.goBack(); //뒤로가기
-        // history.push("/main"); //메인으로 이동
       })
       .catch((err) => {
         console.log(err);
