@@ -10,6 +10,7 @@ body {
 
 * {
   font-family: "Hi Melody", cursive;
+  overflow: hidden;
 }
 
 .contentPage {

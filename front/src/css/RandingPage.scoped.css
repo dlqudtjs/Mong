@@ -42,6 +42,10 @@ h2 {
 	text-align: center;
 }
 
+button {
+	cursor: pointer;	
+}
+
 p {
 	font-size: 14px;
 	font-weight: 100;
